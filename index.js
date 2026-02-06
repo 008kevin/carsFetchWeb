@@ -1,12 +1,17 @@
 const apiBase = "https://surveys-5jvt.onrender.com/api/cars";
 const carContainer = document.getElementById("carsContainer");
-const carModal = document.getElementById("carModal");
+const carModal = new bootstrap.Modal(document.getElementById('carModal'), {
+  keyboard: false
+});
+const carInfoId = document.getElementById("carInfoId");
+const carInfoMake = document.getElementById("carInfoMake");
+const carInfoModel = document.getElementById("carInfoModel");
+const carInfoYear = document.getElementById("carInfoYear");
 
 setup();
 
 async function setup() {
     let cars = await get();
-    console.log(cars);
     cars.forEach(c => {
         carContainer.innerHTML += getCarCard(c.id, c.model);
     });
@@ -17,14 +22,25 @@ function getCarCard(id, model) {
                 <div class="card">
                     <div class="card-body">
                         <h2 class="card-title">${model}</h2>
-                        <a onclick="showInfo(${id})" class="btn btn-primary">Több információ</a>
+                        <button onclick="showInfo(${id})" class="btn btn-primary">Több információ</button>
                     </div>
                 </div>
             </div>`;
 }
 
 async function showInfo(id) {
-    
+    carInfoId.innerText = "";
+    carInfoMake.innerText = "";
+    carInfoModel.innerText = "";
+    carInfoYear.innerText = "";
+
+    carModal.show();
+
+    let car = await getById(id);
+    carInfoId.innerText = car.id;
+    carInfoMake.innerText = car.brand;
+    carInfoModel.innerText = car.model;
+    carInfoYear.innerText = car.year;
 }
 
 

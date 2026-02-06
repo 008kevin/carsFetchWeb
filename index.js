@@ -12,7 +12,12 @@ setup();
 
 async function setup() {
     let cars = await get();
-    cars.forEach(c => {
+    displayData(cars);
+}
+
+function displayData(data) {
+    carContainer.innerHTML = "";
+    data.forEach(c => {
         carContainer.innerHTML += getCarCard(c.id, c.model);
     });
 }
@@ -21,8 +26,9 @@ function getCarCard(id, model) {
     return `<div class="col-4">
                 <div class="card">
                     <div class="card-body">
-                        <h2 class="card-title">${model}</h2>
+                        <h3 class="card-title">${model}</h3>
                         <button onclick="showInfo(${id})" class="btn btn-primary">Több információ</button>
+                        <button onclick="removeCar(${id})" class="btn btn-danger" ${id <= 4? "disabled": ""}><i class="bi bi-trash"></i></button>
                     </div>
                 </div>
             </div>`;
@@ -41,6 +47,15 @@ async function showInfo(id) {
     carInfoMake.innerText = car.brand;
     carInfoModel.innerText = car.model;
     carInfoYear.innerText = car.year;
+}
+
+async function removeCar(id) {
+    try {
+        await remove(id);
+        setup();
+    } catch (e) {
+        window.alert(e);
+    }
 }
 
 
@@ -96,14 +111,13 @@ function put(id, model, brand, year) {
     });
 }
 
-function remove(id) {
-    fetch(apiBase+`/${id}`, JSON.stringify({
+async function remove(id) {
+    const response = await fetch(apiBase+`/${id}`, {
         method: "DELETE"
-    }))
-    .then((request) => {
-        return request.json();
-    })
-    .then((json) => {
-        return json;
     });
+    if (!response.ok) {
+        throw "Az adatot nem sikerült törölni!";
+    }
+    const json = await response.json();
+    return json;
 }

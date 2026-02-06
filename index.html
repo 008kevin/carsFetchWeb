@@ -15,6 +15,39 @@
 <body>
     <div class="container">
         <h1>Autók</h1>
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title">Új autó hozzáadása</h2>
+
+                        <div class="form-floating">
+                            <input id="newNameInput" type="text" class="form-control" placeholder=""/>
+                            <label for="newNameInput">Név</label>
+                        </div>
+
+                        <div class="form-floating">
+                            <input id="newBrandInput" type="text" class="form-control" placeholder=""/>
+                            <label for="newBrandInput">Márka</label>
+                        </div>
+
+                        <div class="form-floating">
+                            <input id="newModelInput" type="text" class="form-control" placeholder=""/>
+                            <label for="newModelInput">Modell</label>
+                        </div>
+
+                        <div class="form-floating">
+                            <input id="newYearInput" type="text" class="form-control" placeholder=""/>
+                            <label for="newYearInput">Évjárat</label>
+                        </div>
+
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-primary">Hozzáadás</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="row" id="carsContainer">
         </div>
     </div>
@@ -35,7 +68,7 @@
                     </ul>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Bezárás</button>
                 </div>
             </div>
         </div>

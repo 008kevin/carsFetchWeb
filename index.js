@@ -127,13 +127,13 @@ addCarButton.addEventListener("click", async () => {
             addCarButton.disabled = true;
             await post(model, brand, year);
             await setup();
-            addCarButton.disabled = false;
             addBrandInput.value = "";
             addModelInput.value = "";
             addYearInput.value = "";
         } catch (e) {
             window.alert(e);
         }
+        addCarButton.disabled = false;
     }   
 });
 

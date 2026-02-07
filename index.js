@@ -60,8 +60,8 @@ function getCarCard(id, model) {
                         <div class="d-flex justify-content-between mt-3">
                             <button onclick="showInfo(${id})" class="btn btn-primary">Adatok</button>
                             <div class="btn-group" role="group">
-                                <button onclick="editCar(${id})" class="btn btn-secondary" ${id <= 4? "disabled": ""}><i class="bi bi-pencil"></i></button>
-                                <button onclick="removeCar(${id})" class="btn btn-danger" ${id <= 4? "disabled": ""}><i class="bi bi-trash"></i></button>
+                                <button onclick="editCar(${id}, this)" class="btn btn-secondary" ${id <= 4? "disabled": ""}><i class="bi bi-pencil"></i></button>
+                                <button onclick="removeCar(${id}, this)" class="btn btn-danger" ${id <= 4? "disabled": ""}><i class="bi bi-trash"></i></button>
                             </div>
                         </div>
                     </div>
@@ -84,11 +84,14 @@ async function showInfo(id) {
     carInfoYear.innerText = car.year;
 }
 
-async function removeCar(id) {
+async function removeCar(id, button) {
+    button.disabled = true;
     try {
         await remove(id);
         setup();
     } catch (e) {
+        setup();
+        button.disabled = false;
         window.alert(e);
     }
 }
@@ -143,16 +146,18 @@ addBrandInput.addEventListener("input", () => removeInvalidInput(addBrandInput, 
 addModelInput.addEventListener("input", () => removeInvalidInput(addModelInput, addModelTooltip));
 addYearInput.addEventListener("input", () => removeInvalidInput(addYearInput, addYearTooltip));
 
-async function editCar(id) {
+async function editCar(id, button) {
+    button.disabled = true;
     let car = await getById(id);
+    button.disabled = false;
     editBrandInput.value = car.brand;
     editModelInput.value = car.model;
     editYearInput.value = car.year
-    editCarButton.onclick = () => editButton(id);
+    editCarButton.onclick = () => editButton(id, button);
     editModal.show();
 }
 
-async function editButton(id) {
+async function editButton(id,) {
     let brand = editBrandInput.value;
     let isCorrect = true;
     if (!brand) {

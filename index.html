@@ -74,5 +74,42 @@
         </div>
     </div>
 
+    <div class="modal" id="editModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Autó szerkesztése</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                            <div class="col-4">
+                                <div class="form-floating">
+                                    <input data-bs-toggle="tooltip" data-bs-title="Default" id="editBrandInput" type="text" class="form-control" placeholder=""/>
+                                    <label for="editBrandInput">Márka</label>
+                                </div>
+                            </div>
+                            <div class="col-5">
+                                <div class="form-floating">
+                                    <input data-bs-toggle="tooltip" data-bs-title="Default" id="editModelInput" type="text" class="form-control" placeholder=""/>
+                                    <label for="editModelInput">Modell</label>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-floating">
+                                    <input data-bs-toggle="tooltip" data-bs-title="Default" id="editYearInput" type="number" class="form-control" placeholder=""/>
+                                    <label for="editYearInput">Évjárat</label>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="editCarButton" type="button" class="btn btn-primary">Mentés</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Bezárás</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>

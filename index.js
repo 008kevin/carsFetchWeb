@@ -4,6 +4,9 @@ const apiBase = "https://surveys-5jvt.onrender.com/api/cars";
 const carModal = new bootstrap.Modal(document.getElementById('carModal'), {
   keyboard: false
 });
+const editModal = new bootstrap.Modal(document.getElementById('editModal'), {
+  keyboard: false
+});
 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
 const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
 tooltipList.forEach((e) => e.disable());
@@ -26,6 +29,15 @@ const addModelTooltip = bootstrap.Tooltip.getInstance('#newModelInput');
 const addYearInput = document.getElementById("newYearInput");
 const addYearTooltip = bootstrap.Tooltip.getInstance('#newYearInput');
 
+// edit car inputs
+const editCarButton = document.getElementById("editCarButton");
+const editBrandInput = document.getElementById("editBrandInput");
+const editBrandTooltip = bootstrap.Tooltip.getInstance('#editBrandInput');
+const editModelInput = document.getElementById("editModelInput");
+const editModelTooltip = bootstrap.Tooltip.getInstance('#editModelInput');
+const editYearInput = document.getElementById("editYearInput");
+const editYearTooltip = bootstrap.Tooltip.getInstance('#editYearInput');
+
 setup();
 
 async function setup() {
@@ -47,6 +59,7 @@ function getCarCard(id, model) {
                         <h3 class="card-title">${model}</h3>
                         <button onclick="showInfo(${id})" class="btn btn-primary">Több információ</button>
                         <button onclick="removeCar(${id})" class="btn btn-danger" ${id <= 4? "disabled": ""}><i class="bi bi-trash"></i></button>
+                        <button onclick="editCar(${id})" class="btn btn-secondary" ${id <= 4? "disabled": ""}><i class="bi bi-pencil"></i></button>
                     </div>
                 </div>
             </div>`;
@@ -121,6 +134,52 @@ addBrandInput.addEventListener("input", () => removeInvalidInput(addBrandInput, 
 addModelInput.addEventListener("input", () => removeInvalidInput(addModelInput, addModelTooltip));
 addYearInput.addEventListener("input", () => removeInvalidInput(addYearInput, addYearTooltip));
 
+async function editCar(id) {
+    let car = await getById(id);
+    editBrandInput.value = car.brand;
+    editModelInput.value = car.model;
+    editYearInput.value = car.year
+    editCarButton.onclick = () => editButton(id);
+    editModal.show();
+}
+
+async function editButton(id) {
+    let brand = editBrandInput.value;
+    let isCorrect = true;
+    if (!brand) {
+        isCorrect = false;
+        editBrandInput.classList.add("is-invalid");
+        editBrandTooltip.setContent({ '.tooltip-inner': 'Adjon meg egy márkát!' });
+        editBrandTooltip.enable();
+        editBrandTooltip.show();
+    }
+    let model = editModelInput.value;
+    if (!model) {
+        isCorrect = false;
+        editModelInput.classList.add("is-invalid");
+        editModelTooltip.setContent({ '.tooltip-inner': 'Adjon meg egy modellt!' });
+        editModelTooltip.enable();
+        editModelTooltip.show();
+    }
+    let year = Number(editYearInput.value);
+    if (isNaN(year) || !year) {
+        isCorrect = false;
+        editYearInput.classList.add("is-invalid");
+        editYearTooltip.setContent({ '.tooltip-inner': 'Adjon meg egy évjáratot!' });
+        editYearTooltip.enable();
+        editYearTooltip.show();
+    }
+    if (isCorrect) {
+        try {
+            console.log(model, brand, year)
+            await put(id, model, brand, year);
+            editModal.hide();
+            setup();
+        } catch (e) {
+            window.alert(e);
+        }
+    }   
+}
 
 /*
   FETCH METODUSOK
@@ -150,30 +209,30 @@ async function post(model, brand, year) {
         }
     });
     const json = await response.json();
-        if (!response.ok) {
+    if (!response.ok) {
         throw `Nem sikerült hozzáadni az adatot! (${json.message})`;
     }
     return json;
 }
 
-function put(id, model, brand, year) {
-    fetch(apiBase + `/${id}`, JSON.stringify({
-        method: "PUT",
-        body: {
-            'model': model,
-            'brand': brand,
-            'year': year
-        },
+async function put(id, model, brand, year) {
+    const response = await fetch(apiBase + `/${id}`, {
+        method: 'PUT',
+        body: JSON.stringify({
+            "model": model,
+            "brand": brand,
+            "year": year
+        }),
         headers: {
             'content-type': "application/json; charset=UTF-8"
         }
-    }))
-    .then((request) => {
-        return request.json();
-    })
-    .then((json) => {
-        return json;
     });
+    console.log(response)
+    const json = await response.json();
+    if (!response.ok) {
+        throw `Nem sikerült szerkeszteni az adatot! (${json.message})`;
+    }
+    return json;
 }
 
 async function remove(id) {

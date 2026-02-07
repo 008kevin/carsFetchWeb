@@ -53,13 +53,17 @@ function displayData(data) {
 }
 
 function getCarCard(id, model) {
-    return `<div class="col-4">
+    return `<div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-4">
                 <div class="card">
                     <div class="card-body">
-                        <h3 class="card-title">${model}</h3>
-                        <button onclick="showInfo(${id})" class="btn btn-primary">Több információ</button>
-                        <button onclick="removeCar(${id})" class="btn btn-danger" ${id <= 4? "disabled": ""}><i class="bi bi-trash"></i></button>
-                        <button onclick="editCar(${id})" class="btn btn-secondary" ${id <= 4? "disabled": ""}><i class="bi bi-pencil"></i></button>
+                        <h3 class="card-title"><i class="bi bi-car-front"></i> ${model}</h3>
+                        <div class="d-flex justify-content-between mt-3">
+                            <button onclick="showInfo(${id})" class="btn btn-primary">Adatok</button>
+                            <div class="btn-group" role="group">
+                                <button onclick="editCar(${id})" class="btn btn-secondary" ${id <= 4? "disabled": ""}><i class="bi bi-pencil"></i></button>
+                                <button onclick="removeCar(${id})" class="btn btn-danger" ${id <= 4? "disabled": ""}><i class="bi bi-trash"></i></button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>`;
@@ -117,8 +121,13 @@ addCarButton.addEventListener("click", async () => {
     }
     if (isCorrect) {
         try {
+            addCarButton.disabled = true;
             await post(model, brand, year);
-            setup();
+            await setup();
+            addCarButton.disabled = false;
+            addBrandInput.value = "";
+            addModelInput.value = "";
+            addYearInput.value = "";
         } catch (e) {
             window.alert(e);
         }

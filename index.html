@@ -13,42 +13,52 @@
     <script defer src="index.js"></script>
 </head>
 <body>
-    <div class="container">
-        <h1>Autók</h1>
-        <div class="row">
-            <div class="col-6 mx-auto">
-                <div class="card">
-                    <div class="card-body">
-                        <h2 class="card-title">Új autó hozzáadása</h2>
+    <div class="header">
+        <div class="container">
+            <h1>Autók</h1>
+        </div>
+    </div>
+    <div class="newCar">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-8 col-xl-6 mx-auto">
+                    <div class="card">
+                        <div class="card-body">
+                            <h2 class="card-title">Új autó hozzáadása</h2>
 
-                        <div class="row mt-4">
-                            <div class="col-4">
-                                <div class="form-floating">
-                                    <input data-bs-toggle="tooltip" data-bs-title="Default" id="newBrandInput" type="text" class="form-control" placeholder=""/>
-                                    <label for="newBrandInput">Márka</label>
+                            <div class="row mt-4">
+                                <div class="col-12 col-sm-4 my-1">
+                                    <div class="form-floating">
+                                        <input data-bs-toggle="tooltip" data-bs-title="Default" id="newBrandInput" type="text" class="form-control" placeholder=""/>
+                                        <label for="newBrandInput">Márka</label>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-5">
-                                <div class="form-floating">
-                                    <input data-bs-toggle="tooltip" data-bs-title="Default" id="newModelInput" type="text" class="form-control" placeholder=""/>
-                                    <label for="newModelInput">Modell</label>
+                                <div class="col-12 col-sm-5 my-1">
+                                    <div class="form-floating">
+                                        <input data-bs-toggle="tooltip" data-bs-title="Default" id="newModelInput" type="text" class="form-control" placeholder=""/>
+                                        <label for="newModelInput">Modell</label>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-3">
-                                <div class="form-floating">
-                                    <input data-bs-toggle="tooltip" data-bs-title="Default" id="newYearInput" type="number" class="form-control" placeholder=""/>
-                                    <label for="newYearInput">Évjárat</label>
+                                <div class="col-12 col-sm-3 my-1">
+                                    <div class="form-floating">
+                                        <input data-bs-toggle="tooltip" data-bs-title="Default" id="newYearInput" type="number" class="form-control" placeholder=""/>
+                                        <label for="newYearInput">Évjárat</label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="card-footer">
-                        <button id="addCarButton" class="btn btn-primary">Hozzáadás</button>
+                        <div class="card-footer text-end p-2">
+                            <button id="addCarButton" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Hozzáadás</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row" id="carsContainer">
+    </div>
+    <div class="content">
+        <div class="container">
+            <div class="row" id="carsContainer">
+            </div>
         </div>
     </div>
 
